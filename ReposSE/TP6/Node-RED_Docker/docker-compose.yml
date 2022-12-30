@@ -19,7 +19,7 @@ services:
     depends_on:
       - mqtt    
     container_name: node-red
-    image: nodered/node-red:latest-12
+    image: nodered/node-red:latest-14
     restart: always
     ports:
       - "1880:1880"

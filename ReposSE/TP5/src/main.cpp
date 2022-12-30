@@ -1,98 +1,4 @@
-#define BLYNK_TEMPLATE_ID           "TMPLz7sUh_-y"
-#define BLYNK_DEVICE_NAME           "TP5"
-#define BLYNK_AUTH_TOKEN            "-Mx9rlT7Giwn5OU6i9plwlqlRXrjkDu_"
-
-
-// Comment this out to disable prints and save space
-#define BLYNK_PRINT Serial
-
-
-#include <WiFi.h>
-#include <WiFiClient.h>
-#include <BlynkSimpleEsp32.h>
-
-char auth[] = BLYNK_AUTH_TOKEN;
-
-// Your WiFi credentials.
-// Set password to "" for open networks.
-char ssid[] = "Christ";
-char pass[] = "1234ABCD";
-
-//WidgetLED led1(V1);
-
-//BlynkTimer timer;
-void led_pwm(int pwm_value);
-byte pwm_pin = 2;
-
-BLYNK_WRITE(V1)
-{
-  // Set incoming value from pin V1 to a variable
-  //int value = param.asInt();
-  led_pwm(param.asInt());
-
-  // Update state
-  //digitalWrite(2, value);
-}
-
-// This function is called every time the device is connected to the Blynk.Cloud
-BLYNK_CONNECTED()
-{
-  // Change Web Link Button message to "Congratulations!"
-  Blynk.setProperty(V3, "offImageUrl", "https://static-image.nyc3.cdn.digitaloceanspaces.com/general/fte/congratulations.png");
-  Blynk.setProperty(V3, "onImageUrl",  "https://static-image.nyc3.cdn.digitaloceanspaces.com/general/fte/congratulations_pressed.png");
-  Blynk.setProperty(V3, "url", "https://docs.blynk.io/en/getting-started/what-do-i-need-to-blynk/how-quickstart-device-was-made");
-}
-
-// This function sends Arduino's uptime every second to Virtual Pin 2.
-/*void myTimerEvent()
-{
-  // You can send any value at any time.
-  // Please don't send more that 10 values per second.
-  Blynk.virtualWrite(V5, millis() / 1000);
-}
-
-// V1 LED Widget is blinking
-void blinkLedWidget()
-{
-  if (led1.getValue()) {
-    led1.off();
-    Serial.println("LED on V1: off");
-  } else {
-    led1.on();
-    Serial.println("LED on V1: on");
-  }
-}
-void myTimerEvent()
-{
-  Blynk.virtualWrite(V5, millis() / 1000);
-}*/
-
-void setup()
-{
-  // Debug console
-  Serial.begin(9600);
-  pinMode (pwm_pin, OUTPUT);
-  Blynk.begin(auth, ssid, pass);
-
-  // You can also specify server:
-  //Blynk.begin(auth, ssid, pass, "blynk.cloud", 80);
-  //Blynk.begin(auth, ssid, pass, IPAddress(192,168,1,100), 8080);
-
-  //timer.setInterval(1000L, blinkLedWidget);
-}
-
-void loop()
-{
-  Blynk.run();
-  //timer.run();
-}
-
-void led_pwm(int pwm_value)
-{
-  analogWrite(pwm_pin, pwm_value);
-}
-
-/*#include <Arduino.h>*/
+#include <Arduino.h>
 /*************************************************************
 
   This is a simple demo of sending and receiving some data.
@@ -101,9 +7,9 @@ void led_pwm(int pwm_value)
 
 // Template ID, Device Name and Auth Token are provided by the Blynk.Cloud
 // See the Device Info tab, or Template settings
-/*#define BLYNK_TEMPLATE_ID           "TMPLz7sUh_-y"
-#define BLYNK_DEVICE_NAME           "TP5"
-#define BLYNK_AUTH_TOKEN            "-Mx9rlT7Giwn5OU6i9plwlqlRXrjkDu_"
+#define BLYNK_TEMPLATE_ID           "TMPLnfvQijOr"
+#define BLYNK_DEVICE_NAME           "Quickstart Device"
+#define BLYNK_AUTH_TOKEN            "xxG6Pr8CSR_HBMYuyq1YGkW0P5SVuOva"
 
 
 // Comment this out to disable prints and save space
@@ -123,10 +29,10 @@ char auth[] = BLYNK_AUTH_TOKEN;
 
 // Your WiFi credentials.
 // Set password to "" for open networks.
-char ssid[] = "Christ";
-char pass[] = "1234ABCD";
+char ssid[] = "mohamed";
+char pass[] = "1234momo";
 
-#define DHTPIN 18          // What digital pin we're connected to
+#define DHTPIN 26          // What digital pin we're connected to
 #define DHTTYPE DHT11     // DHT 11
 DHT dht(DHTPIN, DHTTYPE);
 
@@ -206,7 +112,7 @@ void sendSensor()
     return;
   }
   // You can send any value at any time.
-  // Please don't send more than 10 values per second.
+  // Please don't send more that 10 values per second.
   Blynk.virtualWrite(V5, h);
   Blynk.virtualWrite(V6, t);
 }
@@ -219,7 +125,7 @@ BLYNK_WRITE(V0)
   int value = param.asInt();
 
   // Update state
-  digitalWrite(15, value);
+  digitalWrite(2, value);
 }
 
 // This function is called every time the device is connected to the Blynk.Cloud
@@ -235,7 +141,7 @@ BLYNK_CONNECTED()
 void myTimerEvent()
 {
   // You can send any value at any time.
-  // Please don't send more than 10 values per second.
+  // Please don't send more that 10 values per second.
   Blynk.virtualWrite(V2, millis() / 1000);
 }
 
@@ -243,7 +149,7 @@ void setup()
 {
   // Debug console
   Serial.begin(115200);
-  pinMode (15,OUTPUT);
+  pinMode (2,OUTPUT);
 
   Blynk.begin(auth, ssid, pass);
   // You can also specify server:
@@ -277,4 +183,4 @@ void loop()
   // Check other examples on how to communicate with Blynk. Remember
   // to avoid delay() function!
   checkPin();
-} */
+}

@@ -171,14 +171,6 @@ void setup() {
   //setup_wifi();
   client.setServer(mqtt_server, 1883);
 
- /*if ((char)payload[0] == 'O' && (char)payload[1] == 'N') {
-    digitalWrite(BUILTIN_LED, HIGH);   
-  } 
-  else if ((char)payload[0] == 'O' && (char)payload[1] == 'F' && (char)payload[2] == 'F')
-  {
-    digitalWrite(BUILTIN_LED, LOW);
-  }*/
-
 }
 
 void loop() {
