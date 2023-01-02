@@ -1,8 +1,3 @@
-#include <Arduino.h>
-
-void setup() {
-  // put your setup code here, to run once:
-}
 //Libraries
 #include <WiFi.h>
 //Constants
@@ -22,6 +17,7 @@ WiFiClient browser;
 IPAddress ip(192, 168, 1, 100);
 IPAddress gateway(192, 168, 1, 1);
 IPAddress subnet(255, 255, 255, 0);
+
 void setup() {
  	//Init Serial USB
  	Serial.begin(115200);
@@ -37,43 +33,6 @@ void setup() {
  	Serial.print(nom);
  	Serial.print(F(" connected to Wifi! IP address : http://")); Serial.println(WiFi.localIP()); // Print the IP address
  	pinMode(LED, OUTPUT);
-}
-void loop() {
- 	clientRequest();
-}
-void clientRequest( ) { /* function clientRequest */
- 	////Check if client connected
- 	WiFiClient client = server.available();
- 	client.setTimeout(50);
- 	if (client) {
- 			if (client.connected()) {
- 					//Print client IP address
- 					Serial.print(" ->");Serial.println(client.remoteIP());
- 					String request = client.readStringUntil('\r'); //receives the message from the client
- 				
- 					if (request.indexOf("Slave0") == 0) {
- 							//Handle slave request
- 							Serial.print("From "); Serial.println(request);
- 							int index = request.indexOf(":");
- 							String slaveid = request.substring(0, index);
- 							slaveState = request.substring(request.indexOf("x") + 1, request.length());
- 							Serial.print("state received: "); Serial.println(slaveState);
- 							client.print(nom);
- 							if (sendCmd) {
- 									sendCmd = false;
- 									client.println(": Ok " + slaveid + "! Set state to x" + String(slaveCmd) + "\r");
- 							} else {
- 									client.println(": Hi " + slaveid + "!\r"); // sends the answer to the client
- 							}
- 							client.stop(); 															// terminates the connection with the client
- 					} else {
- 							Serial.print("From Browser : "); Serial.println(request);
- 						
- 							handleRequest(request);
- 							webpage(client);
- 					}
- 			}
- 	}
 }
 void handleRequest(String request) { /* function handleRequest */
  	////Check if client connected
@@ -149,4 +108,41 @@ void webpage(WiFiClient browser) { /* function webpage */
  	browser.println("</center>");
  	browser.println("</body></html>");
  	delay(1);
+}
+void clientRequest( ) { /* function clientRequest */
+ 	////Check if client connected
+ 	WiFiClient client = server.available();
+ 	client.setTimeout(50);
+ 	if (client) {
+ 			if (client.connected()) {
+ 					//Print client IP address
+ 					Serial.print(" ->");Serial.println(client.remoteIP());
+ 					String request = client.readStringUntil('\r'); //receives the message from the client
+ 				
+ 					if (request.indexOf("Slave0") == 0) {
+ 							//Handle slave request
+ 							Serial.print("From "); Serial.println(request);
+ 							int index = request.indexOf(":");
+ 							String slaveid = request.substring(0, index);
+ 							slaveState = request.substring(request.indexOf("x") + 1, request.length());
+ 							Serial.print("state received: "); Serial.println(slaveState);
+ 							client.print(nom);
+ 							if (sendCmd) {
+ 									sendCmd = false;
+ 									client.println(": Ok " + slaveid + "! Set state to x" + String(slaveCmd) + "\r");
+ 							} else {
+ 									client.println(": Hi " + slaveid + "!\r"); // sends the answer to the client
+ 							}
+ 							client.stop(); 															// terminates the connection with the client
+ 					} else {
+ 							Serial.print("From Browser : "); Serial.println(request);
+ 						
+ 							handleRequest(request);
+ 							webpage(client);
+ 					}
+ 			}
+ 	}
+}
+void loop() {
+ 	clientRequest();
 }
